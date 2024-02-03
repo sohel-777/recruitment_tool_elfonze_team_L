@@ -1,12 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter , Routes, Route } from 'react-router-dom';
+import RegistrationForm from './components/RegistrationForm/RegistrationForm'; 
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      app
-    </div>
+    <BrowserRouter>
+      
+       
+        <Routes>
+          {/* <Route path="/" exact component={HomePage} /> */}
+          <Route path="/register" element={<RegistrationForm/>} />
+         
+          {/* <Route path="/dashboard" component={Dashboard} /> */}
+          {/* <Route path="/profile" component={UserProfile} /> */}
+        </Routes>
+     
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
