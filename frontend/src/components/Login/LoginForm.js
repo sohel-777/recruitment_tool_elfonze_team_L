@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { Link, Router } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "./styles.css";
-import Home from "../Home/Home";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
-    organizationName: "",
     password: "",
   });
 
@@ -22,24 +20,12 @@ const LoginForm = () => {
     let valid = true;
     const newErrors = {};
 
-    // Validate username
-    if (!formData.username.trim()) {
-      newErrors.username = "Username is required";
-      valid = false;
-    }
-
     // Validate email
     if (
       !formData.email.trim() ||
       !(formData.email.includes("@") && formData.email.includes("."))
     ) {
       newErrors.email = "Valid email is required";
-      valid = false;
-    }
-
-    // Validate organization name
-    if (!formData.organizationName.trim()) {
-      newErrors.organizationName = "Organization name is required";
       valid = false;
     }
 
@@ -68,7 +54,7 @@ const LoginForm = () => {
 
         if (response.ok) {
           console.log("Registration successful");
-          Router.push('/')
+          navigate("/");
         } else {
           console.error("Registration failed");
         }
@@ -80,66 +66,40 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-    <h1>Login</h1>
-    {/* <div>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        placeholder="Enter your username"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <span className="error">{errors.username}</span>
-    </div> */}
+      <h1>Login</h1>
 
-    <div>
-      <label htmlFor="email">Email:</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Enter your email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <span className="error">{errors.email}</span>
-    </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <span className="error">{errors.email}</span>
+      </div>
 
-    {/* <div>
-      <label htmlFor="organizationName">Organization Name:</label>
-      <input
-        type="text"
-        id="organizationName"
-        name="organizationName"
-        placeholder="Enter your organization name"
-        value={formData.organizationName}
-        onChange={handleChange}
-      />
-      <span className="error">{errors.organizationName}</span>
-    </div> */}
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <span className="error">{errors.password}</span>
+      </div>
 
-    <div>
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Enter your password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <span className="error">{errors.password}</span>
-    </div>
-
-    <button type="submit">Login</button>
-    <p>
-     Don't have an account? <Link to="/register">Register here</Link>
-    </p>
-  </form>
-);
+      <button type="submit">Login</button>
+      <p>
+        Don't have an account? <Link to="/register">Register here</Link>
+      </p>
+    </form>
+  );
 };
 
-
-export default LoginForm
+export default LoginForm;
