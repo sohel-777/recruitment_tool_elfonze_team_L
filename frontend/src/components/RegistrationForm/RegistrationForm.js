@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-const RegistrationForm = () => {
+const RegistrationForm = ({isAdminRegister}) => {
+  const [isAdmin, setIsAdmin] = useState(isAdminRegister);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    organizationName: "",
+    ...(isAdmin && { organizationName: "" }),
     password: "",
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setIsAdmin(isAdminRegister);
+  }, [isAdminRegister]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +42,7 @@ const RegistrationForm = () => {
     }
 
     // Validate organization name
-    if (!formData.organizationName.trim()) {
+    if ( isAdmin && !formData.organizationName.trim()) {
       newErrors.organizationName = "Organization name is required";
       valid = false;
     }
@@ -77,7 +83,7 @@ const RegistrationForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Register</h1>
+      <h1>{isAdmin? "Admin Register":"User Register"} </h1>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -104,7 +110,7 @@ const RegistrationForm = () => {
         <span className="error">{errors.email}</span>
       </div>
 
-      <div>
+      { isAdmin && <div>
         <label htmlFor="organizationName">Organization Name:</label>
         <input
           type="text"
@@ -115,7 +121,7 @@ const RegistrationForm = () => {
           onChange={handleChange}
         />
         <span className="error">{errors.organizationName}</span>
-      </div>
+      </div>}
 
       <div>
         <label htmlFor="password">Password:</label>
